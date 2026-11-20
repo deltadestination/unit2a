@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Unit 2A: It was very sunny</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef6fc;--card:#fff;--tx:#12324f;--mu:#5b7388;--bl:#1d6fb8;--su:#f5b82e;--ok:#2e9e4f;--no:#d64545;--ln:#cfe0ee;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0e1c2a;--card:#162a3d;--tx:#e8f1f8;--mu:#9bb3c6;--bl:#5aa9ec;--ln:#2a4259}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:Nunito,system-ui,sans-serif;line-height:1.5}
+.w{max-width:780px;margin:0 auto;padding:14px}
+header{background:linear-gradient(120deg,#1d6fb8,#4aa3e0);color:#fff;border-radius:18px;padding:18px;margin-bottom:12px}
+header h1{margin:0;font-size:1.6rem;font-weight:900}header p{margin:2px 0 0;opacity:.9}
+nav{display:flex;gap:6px;overflow-x:auto;padding:4px 0 10px}
+nav button{flex:none;border:2px solid var(--ln);background:var(--card);color:var(--tx);border-radius:20px;padding:6px 12px;font:700 .85rem Nunito,sans-serif;cursor:pointer}
+nav button.on{background:var(--su);border-color:var(--su);color:#12324f}
+.bar{height:8px;background:var(--ln);border-radius:5px;margin-bottom:10px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .3s}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:16px;padding:14px;margin:12px 0}
+h2{font-size:1.2rem;margin:16px 0 0;color:var(--bl)}h3{margin:0;font-size:1.05rem}
+.es{color:var(--mu);font-size:.92rem;font-style:italic}
+.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin:10px 0}
+.wc{border:2px solid var(--ln);background:var(--card);color:var(--tx);border-radius:14px;padding:10px 6px;text-align:center;cursor:pointer;font-family:inherit}
+.wc:hover{border-color:var(--su)}.wc span{display:block;font-size:2.2rem}.wc b{display:block}.wc i{display:block;color:var(--mu);font-size:.85rem}
+.ln{display:flex;gap:10px;align-items:flex-start;margin:8px 0}
+.au{flex:none;border:0;background:var(--bl);color:#fff;border-radius:50%;width:38px;height:38px;font-size:1rem;cursor:pointer}
+table{width:100%;border-collapse:collapse;margin:10px 0}td,th{border:1px solid var(--ln);padding:8px;text-align:left}th{background:var(--su);color:#12324f}
+.tip{background:#fff6d6;color:#5a4300;border-radius:12px;padding:10px;margin:10px 0}
+.q{margin:14px 0;padding-top:10px;border-top:1px dashed var(--ln)}.q p{margin:0 0 6px}
+.o{display:flex;flex-wrap:wrap;gap:8px}
+.o button{border:2px solid var(--ln);background:var(--card);color:var(--tx);border-radius:12px;padding:8px 12px;font:700 .95rem Nunito,sans-serif;cursor:pointer;text-align:left}
+.o button:hover{border-color:var(--bl)}.o .ok{background:var(--ok);border-color:var(--ok);color:#fff}.o .no{background:var(--no);border-color:var(--no);color:#fff}
+.fb{min-height:1.2em;margin-top:6px!important;font-size:.92rem}
+.btn{border:0;background:var(--bl);color:#fff;border-radius:14px;padding:12px 22px;font:900 1rem Nunito,sans-serif;cursor:pointer;margin:10px 0}
+input{font:700 1.1rem Nunito,sans-serif;padding:12px;border-radius:12px;border:2px solid var(--ln);background:var(--card);color:var(--tx);width:100%;max-width:320px;display:block;margin:10px 0}
+.big{font-size:3rem;font-weight:900;color:var(--bl)}
+button:focus-visible,input:focus-visible{outline:3px solid var(--su);outline-offset:2px}
+</style></head><body><div class="w">
+<header><h1>☀️ Unit 2A: It was very sunny</h1><p id="hi">Mini curso de inglés · El clima y el pasado de “be”</p></header>
+<div id="start" class="card"><h3>Welcome! / ¡Bienvenido!</h3><p class="es">Escribe tu nombre para comenzar.</p>
+<input id="nm" placeholder="Tu nombre" autocomplete="given-name"><button class="btn" id="go">Start / Empezar</button></div>
+<div id="app" hidden><nav id="nav"></nav><div class="bar"><i id="pb"></i></div><div id="secs"></div></div>
+</div>
+<script>
+const W=[["☀️","Sunny","Soleado"],["☁️","Cloudy","Nublado"],["💨","Windy","Ventoso"],["🌧️","Rainy","Lluvioso"],["⛈️","Stormy","Con tormenta"],["❄️","Snowy","Nevado"]];
+const SE=[["🌳","Summer","Verano"],["🌸","Spring","Primavera"],["🍂","Fall","Otoño"],["⛄","Winter","Invierno"]];
+const TE=[["🥵","Hot","Muy caliente"],["😊","Warm","Templado"],["🧥","Cool","Fresco"],["🥶","Cold","Frío"]];
+const TO="On September 20, 1926, there was a big tornado in Encarnación, Paraguay. The weather was very bad. It was windy and rainy. The sky was dark and cloudy. It was a very strong tornado because it destroyed many houses and buildings. The streets were full of water. Trees and cars were on the ground, and many people were afraid and lost their homes. The people from Posadas, Argentina helped the neighbors from Encarnación. They sent food, water, and clothes. Some people from Posadas even went to Encarnación to offer help. It was a sad day, but the help gave hope to many families.";
+const TOES="El 20 de septiembre de 1926 hubo un gran tornado en Encarnación, Paraguay. El clima estaba muy mal: había viento y lluvia. El cielo estaba oscuro y nublado. Fue un tornado muy fuerte porque destruyó muchas casas y edificios. Las calles estaban llenas de agua. Había árboles y autos en el suelo, y muchas personas tenían miedo y perdieron sus hogares. La gente de Posadas, Argentina, ayudó a los vecinos de Encarnación: enviaron comida, agua y ropa. Algunas personas de Posadas incluso fueron a Encarnación a ofrecer ayuda. Fue un día triste, pero la ayuda dio esperanza a muchas familias.";
+const LI="Here’s a quick look at the weather yesterday, Wednesday, May 28th. Early in the morning, the sky was clear, but it was very cold, just 5 degrees Celsius. Around 10 a.m., clouds started to appear and by midday it was cloudy and cool, about 12 degrees. In the early afternoon, there was some light rain, and the temperature reached 15 degrees. By 5 p.m., the rain stopped and the sky was partly cloudy. It felt warmer at 18 degrees. At night, there was a short storm with strong wind and thunder. The temperature dropped to 10 degrees.";
+const LIES="Un vistazo rápido al clima de ayer, miércoles 28 de mayo. Temprano en la mañana el cielo estaba despejado, pero hacía mucho frío: solo 5 grados Celsius. Alrededor de las 10 a. m. empezaron a aparecer nubes y al mediodía estaba nublado y fresco, unos 12 grados. A primera hora de la tarde hubo algo de lluvia ligera y la temperatura llegó a 15 grados. A las 5 p. m. la lluvia paró y el cielo estaba parcialmente nublado. Se sentía más cálido: 18 grados. Por la noche hubo una tormenta corta con viento fuerte y truenos. La temperatura bajó a 10 grados.";
+const S=[
+{t:"🌦️ Vocabulary",b:[["h","The weather","El clima"],["g",W],["h","The seasons","Las estaciones"],["g",SE],["h","Weather temperature","La temperatura"],["g",TE],["h","Example sentences","Oraciones de ejemplo"],
+["p","In summer, it’s usually very hot.","En verano, normalmente hace mucho calor."],["p","In winter, it’s cold and snowy.","En invierno hace frío y nieva."],["p","In fall, it can be cool in the mornings.","En otoño puede hacer fresco por las mañanas."],["p","In spring, the weather is warm.","En primavera el clima es templado."]],
+q:[["1. What season is it?","¿Qué estación es?",[["🌸 It’s ___.",["Spring","Winter","Fall"],0,"Es primavera."],["⛄ It’s ___.",["Summer","Winter","Spring"],1,"Es invierno."],["🌳 It’s ___.",["Fall","Winter","Summer"],2,"Es verano."],["🍂 It’s ___.",["Fall","Spring","Summer"],0,"Es otoño."]]],
+["2. Look and fill in the blanks.","Mira y completa.",[["In summer, it’s usually very ___.",["cold","hot","snowy"],1,"En verano suele hacer mucho calor."],["In winter, it’s ___ and snowy.",["hot","warm","cold"],2,"En invierno hace frío y nieva."],["In fall, it can be ___ in the mornings.",["cool","sunny","hot"],0,"En otoño puede hacer fresco por las mañanas."],["In spring, the weather is ___.",["cold","warm","snowy"],1,"En primavera el clima es templado."],["⛈️ The weather is ___.",["stormy","sunny","windy"],0,"Hay tormenta."],["💨 The weather is ___.",["cloudy","windy","rainy"],1,"Hay viento."]]]]},
+{t:"📘 Grammar",b:[["h","Simple past of ‘be’","Pasado simple de ‘be’ (ser/estar)"],["p","We use the Simple Past to talk about how things were in the past: the weather, how someone felt, or what the season was like.","Usamos el pasado simple para hablar de cómo eran las cosas en el pasado: el clima, cómo se sintió alguien o cómo era la estación."],
+["raw","<table><tr><th>Subject</th><th>Affirmative (+)</th><th>Negative (−)</th></tr><tr><td>I / He / She / It</td><td><b>was</b></td><td><b>wasn’t</b> (was not)</td></tr><tr><td>You / We / They</td><td><b>were</b></td><td><b>weren’t</b> (were not)</td></tr></table><p class=es>Yo/Él/Ella/Eso → was / wasn’t. Tú/Nosotros/Ustedes/Ellos → were / weren’t.</p>"],
+["p","I was hot under the sun.","Yo tenía calor bajo el sol."],["p","She was cool and relaxed.","Ella estaba tranquila y fresca."],["p","It was a very cold winter.","Fue un invierno muy frío."],["p","He wasn’t warm in the room.","Él no tenía calor en la habitación."],["p","It wasn’t windy yesterday.","Ayer no hubo viento."],["p","You were happy in spring.","Estabas feliz en primavera."],["p","They were cold during the storm.","Tenían frío durante la tormenta."],["p","We weren’t ready for the snowy weather last night.","No estábamos listos para el clima nevado anoche."],
+["raw","<div class=tip>💡 Contractions: <b>wasn’t</b> = was not · <b>weren’t</b> = were not<br><span class=es>Contracciones: wasn’t = was not · weren’t = were not</span></div>"]],
+q:[["1. Complete with was or were.","Completa con was o were.",[["The weather ___ sunny yesterday.",["was","were"],0,"El clima estuvo soleado ayer."],["Maria ___ cold in the morning.",["was","were"],0,"María tenía frío en la mañana."],["The children ___ ready for the storm.",["was","were"],1,"Los niños estaban listos para la tormenta."],["My friends and I ___ happy about the snowy day.",["was","were"],1,"Mis amigos y yo estábamos felices por el día nevado."],["Last summer ___ a very hot season.",["was","were"],0,"El verano pasado fue una estación muy calurosa."],["Tom ___ outside during the rain.",["was","were"],0,"Tom estaba afuera durante la lluvia."],["You and Anna ___ warm in front of the fireplace.",["was","were"],1,"Tú y Anna estaban calientes frente a la chimenea."],["Sarah ___ tired after the long walk.",["was","were"],0,"Sarah estaba cansada después de la larga caminata."]]],
+["2. Choose the negative form.","Elige la forma negativa.",[["The weather was sunny this morning.",["The weather wasn’t sunny this morning.","The weather weren’t sunny this morning."],0,"El clima no estuvo soleado esta mañana."],["Carla was at the train station.",["Carla weren’t at the train station.","Carla wasn’t at the train station."],1,"Carla no estaba en la estación de tren."],["The kids were cold after swimming.",["The kids weren’t cold after swimming.","The kids wasn’t cold after swimming."],0,"Los niños no tenían frío después de nadar."],["My jacket was dry after the rain.",["My jacket weren’t dry after the rain.","My jacket wasn’t dry after the rain."],1,"Mi chaqueta no estaba seca después de la lluvia."],["We were so cozy in our grandma’s house.",["We wasn’t so cozy in our grandma’s house.","We weren’t so cozy in our grandma’s house."],1,"No estábamos tan cómodos en la casa de la abuela."]]],
+["3. Find the correct sentence.","Encuentra la oración correcta.",[["Which is correct?",["The weather were really terrible last night.","The weather was really terrible last night."],1,"El clima fue realmente terrible anoche."],["Which is correct?",["Sofia and her brother were cold after the hike.","Sofia and her brother was cold after the hike."],0,"Sofia y su hermano tenían frío después de la caminata."],["Which is correct?",["It weren’t that sunny in the afternoon.","It wasn’t that sunny in the afternoon."],1,"No estuvo tan soleado en la tarde."],["Which is correct?",["My boots was wet from the snow.","My boots were wet from the snow."],1,"Mis botas estaban mojadas por la nieve."]]]]},
+{t:"🎧 Listening",b:[["h","Time to listen: the weather yesterday","Hora de escuchar: el clima de ayer"],["p","Press the speaker and listen. Then read.","Presiona el parlante y escucha. Luego lee."],["p",LI,LIES]],
+q:[["1. Listen and circle the correct answer.","Escucha y elige la respuesta correcta.",[["Early in the morning, the weather was…",["cold","hot"],0,"Temprano en la mañana hacía frío."],["At midday, the sky was…",["cloudy","clear"],0,"Al mediodía estaba nublado."],["In the early afternoon, there was…",["heavy snow","light rain"],1,"A primera hora de la tarde hubo lluvia ligera."],["At 5 p.m., the sky was…",["partly cloudy","stormy"],0,"A las 5 p. m. estaba parcialmente nublado."],["At night, there was…",["a storm","lots of wind"],0,"Por la noche hubo una tormenta."],["At night, the temperature was…",["10°C","20°C"],0,"Por la noche la temperatura era de 10 °C."]]],
+["2. Put the times of the day in order.","Ordena los momentos del día.",[["What was first? (1)",["It was rainy.","It was clear and cold.","There was a storm."],1,"Primero: despejado y frío."],["What was second? (2)",["It was cloudy and cool.","It was warmer and partly cloudy.","There was a storm."],0,"Segundo: nublado y fresco."],["What was fourth? (4)",["It was clear and cold.","It was warmer and partly cloudy.","It was rainy."],1,"Cuarto: más cálido y parcialmente nublado."],["What was last? (5)",["There was a storm.","It was rainy.","It was cloudy and cool."],0,"Último: hubo una tormenta."]]]]},
+{t:"🗣️ Talking",b:[["h","Time to talk: What do you do on a…?","Hora de hablar: ¿Qué haces en un día…?"],["g",[["🌧️","rainy day","día lluvioso"],["☀️","sunny day","día soleado"],["💨","windy day","día ventoso"],["☁️","cloudy day","día nublado"]]],["p","Example: On a rainy day, I usually stay home.","Ejemplo: En un día lluvioso, normalmente me quedo en casa."],
+["h","Conversation","Conversación"],["p","Teacher: Hello, Maria! How was the weather yesterday?","Profesor: ¡Hola, María! ¿Cómo estuvo el clima ayer?"],["p","Maria: It was sunny! It was warm.","María: ¡Estuvo soleado! Hizo calor templado."],["p","Teacher: Nice! Was it windy?","Profesor: ¡Qué bien! ¿Hubo viento?"],["p","Maria: No, it wasn’t windy. It was sunny all day!","María: No, no hubo viento. ¡Estuvo soleado todo el día!"],["p","Teacher: Great!","Profesor: ¡Genial!"],
+["h","Cloud cards: practice with your partner","Tarjetas de nubes: practica con tu compañero"],["p","Tom: It was rainy, not hot. It was cold.","Tom: Estuvo lluvioso, no caluroso. Hizo frío."],["p","Anna: It was snowy and cold. It was stormy, just cloudy.","Anna: Estuvo nevado y frío. Hubo tormenta, solo nublado."],["p","Maria: It was warm, not hot. It was cloudy and windy.","María: Estuvo templado, no caluroso. Estuvo nublado y ventoso."]],
+q:[["1. Choose the best answer.","Elige la mejor respuesta.",[["Teacher: How was the weather yesterday?",["It was sunny and warm.","It were sunny and warm."],0,"Estuvo soleado y templado."],["Teacher: Was it windy?",["No, it weren’t windy.","No, it wasn’t windy."],1,"No, no hubo viento."],["Teacher: Was it hot?",["Yes, it was. It was very hot.","Yes, it were. It was very hot."],0,"Sí, hizo mucho calor."],["On a rainy day, I usually…",["stay home.","sunny home."],0,"En un día lluvioso, normalmente me quedo en casa."]]]]},
+{t:"📖 Reading",b:[["h","Time to read: key words","Hora de leer: palabras clave"],["g",[["🌪️","Tornado","Tornado"],["☁️","Cloudy","Nublado"],["💨","Windy","Ventoso"],["💥","Destroyed","Destruido"],["😨","Afraid","Con miedo"],["🤝","Help","Ayuda"]]],["h","The Tornado in Encarnación","El tornado en Encarnación"],["p",TO,TOES]],
+q:[["1. Match the words and the definitions.","Une las palabras con sus definiciones.",[["Tornado means…",["A strong wind that moves in a circle","Broken or damaged completely","Feeling scared"],0,"Tornado: un viento fuerte que gira en círculo."],["Cloudy means…",["The wind is strong","The sky is full of clouds","Give food, clothes, or support"],1,"Cloudy: el cielo está lleno de nubes."],["Windy means…",["The wind is strong","Feeling scared","Broken completely"],0,"Windy: el viento es fuerte."],["Destroyed means…",["Give support","Broken or damaged completely","The sky is full of clouds"],1,"Destroyed: roto o dañado por completo."],["Afraid means…",["Feeling scared","The wind is strong","Give food or support"],0,"Afraid: sentir miedo."],["Help means…",["Feeling scared","Give food, clothes, or support","Broken completely"],1,"Help: dar comida, ropa o apoyo."]]],
+["2. Read and answer.","Lee y responde.",[["When was the tornado in Encarnación?",["1960","1926","1962"],1,"¿Cuándo fue el tornado? En 1926."],["What was the weather like that day?",["It was bad: windy and rainy.","It was rainy.","It was windy."],0,"Estaba mal: ventoso y lluvioso."],["What did the tornado destroy?",["Parks.","Streets.","Houses and buildings."],2,"Destruyó casas y edificios."],["Who helped the people of Encarnación?",["People from Posadas.","The police.","People from Asunción."],0,"Los ayudó la gente de Posadas."],["What did the people of Posadas send?",["Water.","Food, water and clothes.","Money."],1,"Enviaron comida, agua y ropa."]]]]}
+];
+const R={},res={};let name="",tot=0,n=0;
+const $=s=>document.querySelector(s),esc=s=>s.replace(/"/g,"&quot;");
+function au(t){return `<button class="au" data-t="${esc(t)}" aria-label="Listen">🔊</button>`}
+function blk(b){const k=b[0];
+if(k=="h")return `<h2>${b[1]}</h2><p class="es">${b[2]}</p>`;
+if(k=="g")return `<div class="g">${b[1].map(w=>`<button class="wc" data-t="${w[1]}"><span>${w[0]}</span><b>${w[1]} 🔊</b><i>${w[2]}</i></button>`).join("")}</div>`;
+if(k=="p")return `<div class="ln">${au(b[1])}<div>${b[1]}<br><span class="es">${b[2]}</span></div></div>`;
+return b[1]}
+function qs(id,q){R[id]=q;tot++;return `<div class="q" data-id="${id}"><p><b>${q[0]}</b></p><div class="o">${q[1].map((o,i)=>`<button data-k="${i}">${o}</button>`).join("")}</div><p class="fb"></p></div>`}
+function build(){
+$("#nav").innerHTML=S.map((s,i)=>`<button data-s="${i}">${s.t}</button>`).join("")+`<button data-s="${S.length}">🏁 Results</button>`;
+$("#secs").innerHTML=S.map((s,i)=>`<section hidden id="s${i}"><div class="card">${s.b.map(blk).join("")}</div>${s.q.map((e,j)=>`<div class="card"><h3>✏️ ${e[0]}</h3><p class="es">${e[1]}</p>${e[2].map((q,m)=>qs(i+"."+j+"."+m,q)).join("")}</div>`).join("")}<button class="btn" data-s="${i+1}">${i<S.length-1?"Next / Siguiente ▶":"See my results / Ver resultados 🏁"}</button></section>`).join("")+`<section hidden id="s${S.length}"><div class="card" id="fin"></div></section>`;
+show(0)}
+function show(i){
+document.querySelectorAll("#secs>section").forEach((s,k)=>s.hidden=k!=i);
+document.querySelectorAll("#nav button").forEach((b,k)=>b.classList.toggle("on",k==i));
+if(i==S.length)fin();window.scrollTo(0,0)}
+function upd(){$("#pb").style.width=Object.keys(res).length/tot*100+"%"}
+function fin(){
+let c=0,rows="";S.forEach((s,i)=>{const ks=Object.keys(R).filter(k=>k.startsWith(i+".")),a=ks.filter(k=>k in res).length,ok=ks.filter(k=>res[k]).length;c+=ok;rows+=`<tr><td>${s.t}</td><td>${ok} / ${ks.length}</td><td>${a<ks.length?"⚠️ "+(ks.length-a)+" sin responder":"✅"}</td></tr>`});
+const p=Math.round(c/tot*100),done=Object.keys(res).length,
+m=p>=90?"¡Excelente! Dominas el clima y el pasado de “be” 🌟":p>=70?"¡Muy bien! Repasa los errores y quedarás perfecto 👏":p>=50?"Vas bien, pero repasa la gramática (was/were) y vuelve a intentarlo 💪":"Sigue practicando: vuelve a las lecciones, escucha los audios y prueba otra vez 📚";
+$("#fin").innerHTML=`<h2 style="margin-top:0">¿Qué tal vamos, ${name}? 🌤️</h2><p class="big">${p}%</p><p><b>${c}</b> respuestas correctas de <b>${tot}</b>.</p><p>${m}</p>${done<tot?`<p class="es">Te faltan ${tot-done} ejercicios por responder.</p>`:""}<table><tr><th>Sección</th><th>Aciertos</th><th>Estado</th></tr>${rows}</table><button class="btn" data-s="0">Review / Repasar</button>`}
+function say(t){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=.85;speechSynthesis.speak(u)}
+document.addEventListener("click",e=>{
+let t=e.target.closest("[data-t]");if(t){try{say(t.dataset.t)}catch(x){}return}
+t=e.target.closest("[data-s]");if(t){show(+t.dataset.s);return}
+const b=e.target.closest(".o button");if(!b)return;const q=b.closest(".q");if(q.dataset.d)return;q.dataset.d=1;
+const id=q.dataset.id,r=R[id],k=+b.dataset.k,ok=k==r[2];b.classList.add(ok?"ok":"no");
+if(!ok)q.querySelectorAll(".o button")[r[2]].classList.add("ok");res[id]=ok;
+q.querySelector(".fb").innerHTML=(ok?"✅ Correct! ":"❌ Correct answer: <b>"+r[1][r[2]]+"</b>. ")+`<span class="es">${r[3]}</span>`;upd()});
+function begin(){const v=$("#nm").value.trim();if(!v){$("#nm").focus();return}
+name=v;$("#hi").textContent="Hello, "+name+"! 👋 Let’s learn about the weather. / ¡Aprendamos sobre el clima!";
+$("#start").hidden=true;$("#app").hidden=false;build()}
+$("#go").onclick=begin;$("#nm").addEventListener("keydown",e=>{if(e.key=="Enter")begin()});
+</script></body></html>
